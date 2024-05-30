@@ -101,7 +101,7 @@ export default function Home() {
     //         });
     // }, [])
     return (
-        <main className="flex min-h-screen flex-row items-center justify-between p-6">
+        <main className="flex min-h-screen flex-row items-center justify-center p-6"> {/*justify-between w/ l/r buttons*/}
             {/*<button>lb</button>*/}
             <div className="bg-white dark:bg-black py-12 px-6 rounded-2xl shadow-xl">
                 <h1 className="text-2xl font-bold">{formatDateString(data.date)}</h1>
