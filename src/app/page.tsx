@@ -1,12 +1,20 @@
 "use client";
 import Shed from "@/components/shed";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 const fetchJsonData = async (url: string): Promise<any> => {
     const response = await axios.get(url);
     return response.data;
 };
+function getCurrentDateFormatted(): string {
+    const date = new Date();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+
+    return `${month}-${day}-${year}`;
+}
 
 async function getScheduleData(): Promise<any> {
     const url = "http://localhost:8000/schedule/get/05-22-24";
@@ -23,13 +31,49 @@ async function getScheduleData(): Promise<any> {
         throw error; // Re-throw the error for further handling (optional)
     }
 }
+function formatDateString(dateStr: string): string {
+    try {
+        // Array of month names
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Extract the parts of the input date string
+        const [month, day, year] = dateStr.split('-').map(Number);
+
+        // Get the full year
+        const fullYear = year < 70 ? 2000 + year : 1900 + year;
+
+        // Determine the suffix for the day (1st, 2nd, 3rd, 4th, etc.)
+        const daySuffix = (day: number): string => {
+            if (day >= 11 && day <= 13) return 'th';
+            switch (day % 10) {
+                case 1:
+                    return 'st';
+                case 2:
+                    return 'nd';
+                case 3:
+                    return 'rd';
+                default:
+                    return 'th';
+            }
+        };
+
+        // Format the date
+        return `${months[month - 1]} ${day}${daySuffix(day)}, ${fullYear}`;
+    } catch (error) {
+        // error means api request is in progress
+        return "...";
+    }
+}
 
 export default function Home() {
-    const [data, setData] = useState<any>({empty: true});
+    const [data, setData] = useState<any>({empty: true, periods: []});
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const url = 'http://localhost:8000/schedule/get/05-22-24'; // Replace with your API endpoint
+        const url = `http://localhost:8000/schedule/get/${getCurrentDateFormatted()}`; // Replace with your API endpoint
 
         const fetchData = async () => {
             try {
@@ -41,9 +85,6 @@ export default function Home() {
         };
             fetchData();
     }, []);
-
-    // TODO: are u kidding me its cuz localhost dont work on idx
-    // cuz its a different machine
 
     // let schedule: string = "-";
     const [schedule, setSchedule] = useState<string>("-");
@@ -61,17 +102,17 @@ export default function Home() {
     }, [])
     return (
         <main className="flex min-h-screen flex-row items-center justify-between p-6">
-            <button>lb</button>
-            <div className="bg-white py-12 px-6 rounded-2xl shadow-xl">
-                main
-                {/*TODO: data.date is [object Object] for some reason*/}
-                {JSON.stringify(data.date)}
-                {typeof data.period}
-                <Shed period={data.period} course={data.course} name={data.name} teacher={data.teacher} room={data.room} time1={data.time1} time2={data.time2}/>
-                <p>{`${schedule}`}</p>
-                <p>{JSON.stringify(data)}</p>
+            {/*<button>lb</button>*/}
+            <div className="bg-white dark:bg-black py-12 px-6 rounded-2xl shadow-xl">
+                <h1 className="text-2xl font-bold">{formatDateString(data.date)}</h1>
+                {data.periods.map((period: any) => {
+                    return (
+                        // eslint-disable-next-line react/jsx-key
+                        <Shed period={period.period} course={period.course} name={period.name} teacher={period.teacher} room={period.room} time1={period.time1} time2={period.time2}/>
+                    )
+                })}
             </div>
-            <button>rb</button>
+            {/*<button>rb</button>*/}
         </main>
     )
 }
