@@ -16,21 +16,21 @@ function getCurrentDateFormatted(): string {
     return `${month}-${day}-${year}`;
 }
 
-async function getScheduleData(): Promise<any> {
-    const url = "http://localhost:8000/schedule/get/05-22-24";
-
-    try {
-        const response = await fetch(url, {method: "GET"});
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error fetching schedule data:", error);
-        throw error; // Re-throw the error for further handling (optional)
-    }
-}
+// async function getScheduleData(): Promise<any> {
+//     const url = "http://localhost:8000/schedule/get/05-22-24";
+//
+//     try {
+//         const response = await fetch(url, {method: "GET"});
+//         if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         const data = await response.json();
+//         return data;
+//     } catch (error) {
+//         console.error("Error fetching schedule data:", error);
+//         throw error; // Re-throw the error for further handling (optional)
+//     }
+// }
 function formatDateString(dateStr: string): string {
     try {
         // Array of month names
@@ -73,7 +73,7 @@ export default function Home() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const url = `http://localhost:8000/schedule/get/${getCurrentDateFormatted()}`; // Replace with your API endpoint
+        const url = `http://142.198.249.98:10006/schedule/get/${getCurrentDateFormatted()}`; // Replace with your API endpoint
 
         const fetchData = async () => {
             try {
@@ -87,19 +87,19 @@ export default function Home() {
     }, []);
 
     // let schedule: string = "-";
-    const [schedule, setSchedule] = useState<string>("-");
+    // const [schedule, setSchedule] = useState<string>("-");
 
-    useEffect(() => {
-        getScheduleData()
-            .then(data => {
-                console.log("Retrieved schedule data...");
-                // schedule = data
-                setSchedule(data);
-            })
-            .catch(error => {
-                console.error("Error fetching schedule data:", error);
-            });
-    }, [])
+    // useEffect(() => {
+    //     getScheduleData()
+    //         .then(data => {
+    //             console.log("Retrieved schedule data...");
+    //             // schedule = data
+    //             setSchedule(data);
+    //         })
+    //         .catch(error => {
+    //             console.error("Error fetching schedule data:", error);
+    //         });
+    // }, [])
     return (
         <main className="flex min-h-screen flex-row items-center justify-between p-6">
             {/*<button>lb</button>*/}
