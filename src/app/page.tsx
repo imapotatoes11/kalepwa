@@ -73,7 +73,7 @@ export default function Home() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const url = `http://142.198.249.98:10006/schedule/get/${getCurrentDateFormatted()}`; // Replace with your API endpoint
+        const url = `https://142.198.249.98:10006/schedule/get/${getCurrentDateFormatted()}`; // Replace with your API endpoint
 
         const fetchData = async () => {
             try {
