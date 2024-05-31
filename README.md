@@ -1,5 +1,3 @@
-# TODO: [integrate fastapi](https://shabeelkandi.medium.com/building-full-stack-web-applications-with-python-the-ultimate-guide-to-setting-up-next-js-f090684377a1)
-
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
