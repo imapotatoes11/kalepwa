@@ -24,7 +24,7 @@ export default function Shed({
             </div>
             <div>
                 <p className="font-bold text-lg">{`${course}`.toUpperCase()}</p>
-                <p>{`${name}` === "undefined" ? "N/A" : (name.length > 15 ? name.substring(0, 15) + "..." : name)}</p>
+                <p>{`${name}` === "undefined" ? "N/A" : (name.length > 9 ? name.substring(0, 9) + "..." : name)}</p>
                 <p className="text-md">{`${teacher}` === "undefined" ? "-" : teacher}</p>
             </div>
         </main>
